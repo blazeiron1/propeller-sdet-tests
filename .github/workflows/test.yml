@@ -7,11 +7,22 @@ on:
     branches: ["**"]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout test repo
         uses: actions/checkout@v4
+
+      - name: Start API with Docker
+        working-directory: api
+        run: |
+          docker compose up --build -d
+          sleep 30
+
+      - name: Seed database
+        working-directory: api
+        run: docker compose run --rm seed
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -23,3 +34,6 @@ jobs:
 
       - name: Build (compile TypeScript)
         run: npx tsc --noEmit
+
+      - name: Run tests
+        run: npm test
