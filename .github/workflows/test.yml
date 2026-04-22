@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: blazeiron1/propeller-sdet-task-BLAGOJA-MITRESKI
+          token: ${{ secrets.API_REPO_TOKEN }}
           path: api
 
       - name: Start API with Docker
